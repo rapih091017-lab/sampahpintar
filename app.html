@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SampahPintar — Jual Sampah Rumah Tangga, Harga Transparan</title>
+<meta name="description" content="Foto sampahmu, dapat estimasi harga acuan, jadwalkan penjemputan, kumpulkan poin. Marketplace daur ulang rumah tangga.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#0891B2',
+        accent: '#22D3EE',
+        cta: '#22C55E',
+        ctaDark: '#16A34A',
+        ink: '#164E63',
+        paper: '#ECFEFF'
+      },
+      fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+      borderRadius: { '4xl': '2rem' }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+  .chip { transition: all 150ms ease; }
+  .chip:hover { transform: translateY(-1px); }
+</style>
+</head>
+<body class="bg-paper text-ink antialiased">
+
+<header class="sticky top-0 z-40 bg-paper/90 backdrop-blur border-b border-cyan-100">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
+      <span class="w-9 h-9 rounded-2xl bg-primary/10 text-primary grid place-items-center group-hover:bg-primary/20 transition-colors duration-200">
+        <i data-lucide="recycle" class="w-5 h-5"></i>
+      </span>
+      <span class="font-extrabold text-lg tracking-tight">Sampah<span class="text-primary">Pintar</span></span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+      <a href="#jual" class="hover:text-primary transition-colors duration-200 cursor-pointer">Jual Sampah</a>
+      <a href="#dampak" class="hover:text-primary transition-colors duration-200 cursor-pointer">Dampakku</a>
+      <a href="#panduan" class="hover:text-primary transition-colors duration-200 cursor-pointer">Panduan Pilah</a>
+    </nav>
+    <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-cyan-200 shadow-sm">
+      <i data-lucide="star" class="w-4 h-4 text-cta"></i>
+      <span class="text-sm font-bold tabular-nums"><span id="poinBadge">0</span> poin</span>
+    </div>
+  </div>
+</header>
+
+<div id="onboarding" class="fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div class="bg-white rounded-4xl max-w-sm w-full p-8 shadow-2xl text-center">
+    <span class="w-14 h-14 mx-auto rounded-3xl bg-cta/10 text-ctaDark grid place-items-center mb-4">
+      <i data-lucide="leaf" class="w-7 h-7"></i>
+    </span>
+    <h2 class="text-xl font-extrabold mb-1">Halo, warga pilah!</h2>
+    <p class="text-sm text-ink/70 mb-5">Namamu tampil di leaderboard RT. Data hanya tersimpan di browser ini.</p>
+    <label for="namaInput" class="block text-left text-xs font-semibold uppercase tracking-wide text-ink/60 mb-1.5">Nama panggilan</label>
+    <input id="namaInput" type="text" maxlength="20" placeholder="mis. Rina" class="w-full rounded-2xl border border-cyan-200 bg-paper px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-primary transition-shadow duration-200">
+    <button id="mulaiBtn" class="w-full rounded-2xl bg-cta hover:bg-ctaDark text-white font-bold py-3 cursor-pointer transition-colors duration-200">Mulai Memilah</button>
+  </div>
+</div>
+
+<main class="max-w-6xl mx-auto px-4">
+
+  <section class="pt-10 pb-6">
+    <div class="flex flex-wrap items-end gap-x-6 gap-y-3">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight max-w-xl">Sampah rapi,<br>dompet ikut terisi.</h1>
+        <p class="text-ink/70 mt-2 max-w-lg text-sm md:text-base">Foto sampahmu, cek harga acuan realistis, jadwalkan jemput, dapat poin. Transparan dari rumah tangga ke pengepul.</p>
+      </div>
+      <div class="flex gap-3 ml-auto">
+        <div class="bg-white rounded-3xl border border-cyan-100 px-4 py-3 shadow-sm">
+          <p class="text-2xl font-extrabold text-primary tabular-nums">11,3 jt</p>
+          <p class="text-xs text-ink/60">ton sampah tak terkelola<br>(SIPSN 2024)</p>
+        </div>
+        <div class="bg-white rounded-3xl border border-cyan-100 px-4 py-3 shadow-sm">
+          <p class="text-2xl font-extrabold text-ctaDark tabular-nums">41,2%</p>
+          <p class="text-xs text-ink/60">sisa makanan + plastik<br>komposisi nasional</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="jual" class="pb-16">
+    <div class="bg-white rounded-4xl border border-cyan-100 shadow-lg overflow-hidden">
+      <div class="px-6 md:px-10 pt-8 pb-6 border-b border-cyan-50">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-lg font-extrabold">Jual Sampah</h2>
+          <span class="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary">4 langkah mudah</span>
+        </div>
+        <ol id="stepBar" class="grid grid-cols-4 gap-2 text-center text-[11px] md:text-xs font-semibold">
+          <li data-step="1" class="step-dot">Foto &amp; Pilah</li>
+          <li data-step="2" class="step-dot">Estimasi Harga</li>
+          <li data-step="3" class="step-dot">Jadwal Jemput</li>
+          <li data-step="4" class="step-dot">Bayar &amp; Poin</li>
+        </ol>
+      </div>
+
+      <div class="p-6 md:p-10">
+
+        <div class="wizard-step" data-step="1">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label for="fotoInput" class="block rounded-3xl border-2 border-dashed border-cyan-300 bg-paper p-8 text-center cursor-pointer hover:border-primary hover:bg-cyan-50 transition-all duration-200">
+                <span class="w-14 h-14 mx-auto rounded-3xl bg-white text-primary grid place-items-center shadow-sm mb-3">
+                  <i data-lucide="camera" class="w-7 h-7"></i>
+                </span>
+                <span class="block font-bold">Foto sampah di sini</span>
+                <span class="block text-xs text-ink/60 mt-1">atau pilih jenis manual di sebelah kanan</span>
+                <input id="fotoInput" type="file" accept="image/*" class="hidden">
+              </label>
+              <div id="previewBox" class="hidden mt-4 rounded-3xl overflow-hidden border border-cyan-100 relative">
+                <img id="previewImg" alt="Pratinjau foto sampah" class="w-full h-44 object-cover">
+                <div id="rgbBadge" class="absolute bottom-2 left-2 text-[11px] font-mono bg-ink/80 text-white px-2 py-1 rounded-lg"></div>
+              </div>
+            </div>
+            <div>
+              <div id="hasilAI" class="hidden rounded-3xl bg-paper border border-cyan-200 p-5 mb-4">
+                <div class="flex items-center justify-between mb-2">
+                  <p class="text-xs font-bold uppercase tracking-wide text-primary">Saran klasifikasi AI</p>
+                  <span id="keyakinanText" class="text-xs font-semibold text-ink/70"></span>
+                </div>
+                <p id="aiNama" class="font-extrabold text-lg"></p>
+                <div class="h-2 rounded-full bg-white mt-2 overflow-hidden">
+                  <div id="keyakinanBar" class="h-full bg-cta rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <p class="text-[11px] text-ink/60 mt-2">Belum yakin? Pilih manual di bawah, hasil AI cuma saran.</p>
+              </div>
+              <p class="text-xs font-bold uppercase tracking-wide text-ink/60 mb-2">Jenis sampah</p>
+              <div id="jenisGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+              <div id="tipsBox" class="hidden mt-4 rounded-2xl bg-cyan-50 border border-cyan-100 px-4 py-3 text-sm">
+                <p class="font-bold text-xs uppercase tracking-wide text-primary mb-1">Tips pilah</p>
+                <p id="tipsText" class="text-ink/80"></p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end mt-6">
+            <button data-next="2" class="disabled:opacity-40 disabled:cursor-not-allowed rounded-2xl bg-cta hover:bg-ctaDark text-white font-bold px-7 py-3 cursor-pointer transition-colors duration-200">Lanjut: Estimasi Harga</button>
+          </div>
+        </div>
+
+        <div class="wizard-step hidden" data-step="2">
+          <div class="grid md:grid-cols-2 gap-6 items-start">
+            <div>
+              <label for="beratInput" class="block text-xs font-bold uppercase tracking-wide text-ink/60 mb-2">Berat sampah (kg)</label>
+              <input id="beratInput" type="number" min="0.1" step="0.1" value="1" class="w-full rounded-2xl border border-cyan-200 bg-paper px-4 py-3 text-2xl font-extrabold tabular-nums focus:outline-none focus:ring-2 focus:ring-primary transition-shadow duration-200">
+              <p class="text-xs text-ink/60 mt-2">Tak punya timbangan? Mulai dari perkiraan, petugas jemput yang menimbang ulang.</p>
+              <div class="mt-4 flex gap-2 flex-wrap" id="beratQuick"></div>
+            </div>
+            <div class="rounded-3xl bg-ink text-white p-6">
+              <p class="text-xs font-bold uppercase tracking-wide text-accent mb-2">Estimasi harga acuan</p>
+              <p id="hargaRange" class="text-2xl md:text-3xl font-extrabold tabular-nums">Rp 0</p>
+              <p id="hargaDetail" class="text-sm text-cyan-100/80 mt-1"></p>
+              <div class="h-px bg-white/20 my-4"></div>
+              <div class="flex justify-between text-sm">
+                <span class="text-cyan-100/80">Harga per kg</span>
+                <span id="hargaPerKg" class="font-bold tabular-nums"></span>
+              </div>
+              <p class="text-[11px] text-cyan-100/60 mt-4">Harga acuan pasar 2024–2025, bisa berubah per wilayah dan kondisi barang.</p>
+            </div>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button data-prev="1" class="rounded-2xl border border-cyan-200 bg-white hover:bg-cyan-50 font-bold px-6 py-3 cursor-pointer transition-colors duration-200">Kembali</button>
+            <button data-next="3" class="rounded-2xl bg-cta hover:bg-ctaDark text-white font-bold px-7 py-3 cursor-pointer transition-colors duration-200">Lanjut: Jadwal Jemput</button>
+          </div>
+        </div>
+
+        <div class="wizard-step hidden" data-step="3">
+          <div class="grid md:grid-cols-2 gap-6 items-start">
+            <div>
+              <label for="tanggalInput" class="block text-xs font-bold uppercase tracking-wide text-ink/60 mb-2">Tanggal penjemputan</label>
+              <input id="tanggalInput" type="date" class="w-full rounded-2xl border border-cyan-200 bg-paper px-4 py-3 font-semibold focus:outline-none focus:ring-2 focus:ring-primary transition-shadow duration-200">
+              <p class="text-xs font-bold uppercase tracking-wide text-ink/60 mt-4 mb-2">Slot jemput</p>
+              <div class="grid grid-cols-2 gap-2">
+                <button data-slot="pagi" class="slot-btn rounded-2xl border-2 border-primary bg-primary/5 px-4 py-3 text-sm font-bold cursor-pointer hover:border-primary transition-colors duration-200">Pagi (08.00–11.00)</button>
+                <button data-slot="siang" class="slot-btn rounded-2xl border-2 border-cyan-200 bg-white px-4 py-3 text-sm font-bold cursor-pointer hover:border-primary transition-colors duration-200">Siang (13.00–16.00)</button>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wide text-ink/60 mb-2">Titik jemput terdekat</p>
+              <div id="bankList" class="space-y-2"></div>
+            </div>
+          </div>
+          <p id="jadwalError" class="hidden mt-4 text-sm font-semibold text-red-600 bg-red-50 border border-red-100 rounded-2xl px-4 py-3"></p>
+          <div class="flex justify-between mt-6">
+            <button data-prev="2" class="rounded-2xl border border-cyan-200 bg-white hover:bg-cyan-50 font-bold px-6 py-3 cursor-pointer transition-colors duration-200">Kembali</button>
+            <button data-next="4" class="rounded-2xl bg-cta hover:bg-ctaDark text-white font-bold px-7 py-3 cursor-pointer transition-colors duration-200">Lanjut: Konfirmasi</button>
+          </div>
+        </div>
+
+        <div class="wizard-step hidden" data-step="4">
+          <div class="grid md:grid-cols-2 gap-6 items-start">
+            <div class="rounded-3xl border border-cyan-100 bg-paper p-6">
+              <p class="text-xs font-bold uppercase tracking-wide text-primary mb-3">Ringkasan setoran</p>
+              <dl class="space-y-3 text-sm">
+                <div class="flex justify-between"><dt class="text-ink/60">Jenis</dt><dd id="ringJenis" class="font-bold"></dd></div>
+                <div class="flex justify-between"><dt class="text-ink/60">Berat</dt><dd id="ringBerat" class="font-bold tabular-nums"></dd></div>
+                <div class="flex justify-between"><dt class="text-ink/60">Estimasi harga</dt><dd id="ringHarga" class="font-bold tabular-nums text-ctaDark"></dd></div>
+                <div class="flex justify-between"><dt class="text-ink/60">Jadwal jemput</dt><dd id="ringJadwal" class="font-bold text-right"></dd></div>
+                <div class="flex justify-between"><dt class="text-ink/60">Titik jemput</dt><dd id="ringBank" class="font-bold text-right"></dd></div>
+                <div class="flex justify-between"><dt class="text-ink/60">Poin didapat</dt><dd id="ringPoin" class="font-bold text-primary"></dd></div>
+              </dl>
+              <button id="bayarBtn" class="w-full mt-5 rounded-2xl bg-cta hover:bg-ctaDark text-white font-bold py-3 cursor-pointer transition-colors duration-200 flex items-center justify-center gap-2">
+                <i data-lucide="qr-code" class="w-5 h-5"></i> Bayar via QRIS (Simulasi)
+              </button>
+              <p class="text-[11px] text-ink/60 mt-2 text-center">Demo: QRIS simulasi, tidak ada transaksi nyata.</p>
+            </div>
+            <div id="qrisBox" class="hidden rounded-3xl bg-white border-2 border-cta p-6 text-center">
+              <span class="inline-block text-xs font-extrabold uppercase tracking-widest text-ctaDark bg-cta/10 rounded-full px-3 py-1 mb-4">Simulasi</span>
+              <div class="mx-auto w-44 h-44 rounded-2xl border-4 border-ink p-2">
+                <svg viewBox="0 0 100 100" class="w-full h-full" role="img" aria-label="Kode QR simulasi">
+                  <rect x="6" y="6" width="22" height="22" fill="none" stroke="#164E63" stroke-width="6"/>
+                  <rect x="72" y="6" width="22" height="22" fill="none" stroke="#164E63" stroke-width="6"/>
+                  <rect x="6" y="72" width="22" height="22" fill="none" stroke="#164E63" stroke-width="6"/>
+                  <rect x="14" y="14" width="6" height="6" fill="#164E63"/>
+                  <rect x="80" y="14" width="6" height="6" fill="#164E63"/>
+                  <rect x="14" y="80" width="6" height="6" fill="#164E63"/>
+                  <g fill="#0891B2">
+                    <rect x="40" y="8" width="8" height="8"/><rect x="54" y="8" width="8" height="8"/>
+                    <rect x="40" y="22" width="8" height="8"/><rect x="48" y="36" width="8" height="8"/>
+                    <rect x="62" y="36" width="8" height="8"/><rect x="8" y="40" width="8" height="8"/>
+                    <rect x="22" y="40" width="8" height="8"/><rect x="36" y="50" width="8" height="8"/>
+                    <rect x="50" y="50" width="8" height="8"/><rect x="64" y="50" width="8" height="8"/>
+                    <rect x="78" y="42" width="8" height="8"/><rect x="40" y="64" width="8" height="8"/>
+                    <rect x="54" y="72" width="8" height="8"/><rect x="68" y="64" width="8" height="8"/>
+                    <rect x="82" y="78" width="8" height="8"/><rect x="40" y="82" width="8" height="8"/>
+                  </g>
+                </svg>
+              </div>
+              <p class="mt-4 font-extrabold tabular-nums text-lg" id="qrisAmount"></p>
+              <p class="text-xs text-ink/60">Scan oleh petugas bank sampah saat penjemputan.</p>
+              <button id="konfirmasiBtn" class="w-full mt-4 rounded-2xl bg-ink hover:bg-primary text-white font-bold py-3 cursor-pointer transition-colors duration-200">Sudah Bayar, Kunci Jadwal</button>
+            </div>
+          </div>
+          <div id="suksesBox" class="hidden mt-6 rounded-3xl bg-cta/10 border-2 border-cta p-6 text-center">
+            <span class="w-14 h-14 mx-auto rounded-full bg-cta text-white grid place-items-center mb-3">
+              <i data-lucide="check" class="w-8 h-8"></i>
+            </span>
+            <h3 class="text-xl font-extrabold">Jadwal terkunci!</h3>
+            <p id="suksesText" class="text-sm text-ink/70 mt-1"></p>
+            <a href="#dampak" class="inline-block mt-4 rounded-2xl bg-white border border-cta text-ctaDark font-bold px-6 py-2.5 cursor-pointer hover:bg-cta/5 transition-colors duration-200">Lihat Dampak &amp; Leaderboard</a>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button data-prev="3" id="backFrom4" class="rounded-2xl border border-cyan-200 bg-white hover:bg-cyan-50 font-bold px-6 py-3 cursor-pointer transition-colors duration-200">Kembali</button>
+            <button id="resetBtn" class="hidden rounded-2xl border border-cyan-200 bg-white hover:bg-cyan-50 font-bold px-6 py-3 cursor-pointer transition-colors duration-200">Jual lagi</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="dampak" class="pb-16">
+    <div class="flex items-end justify-between mb-5">
+      <div>
+        <h2 class="text-2xl font-extrabold">Dampakku</h2>
+        <p class="text-sm text-ink/70">Kontribusimu dihitung dari setoran yang tersimpan di browser ini.</p>
+      </div>
+      <span id="namaPill" class="text-sm font-bold bg-white border border-cyan-200 rounded-full px-4 py-1.5"></span>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+      <div class="bg-white rounded-3xl border border-cyan-100 p-5">
+        <i data-lucide="star" class="w-5 h-5 text-cta mb-2"></i>
+        <p id="statPoin" class="text-2xl font-extrabold tabular-nums">0</p>
+        <p class="text-xs text-ink/60">Poin tukar hadiah RT</p>
+      </div>
+      <div class="bg-white rounded-3xl border border-cyan-100 p-5">
+        <i data-lucide="weight" class="w-5 h-5 text-primary mb-2"></i>
+        <p id="statKg" class="text-2xl font-extrabold tabular-nums">0 kg</p>
+        <p class="text-xs text-ink/60">Sampah disetor</p>
+      </div>
+      <div class="bg-white rounded-3xl border border-cyan-100 p-5">
+        <i data-lucide="banknote" class="w-5 h-5 text-ctaDark mb-2"></i>
+        <p id="statRp" class="text-2xl font-extrabold tabular-nums">Rp 0</p>
+        <p class="text-xs text-ink/60">Estimasi didapat</p>
+      </div>
+      <div class="bg-white rounded-3xl border border-cyan-100 p-5">
+        <i data-lucide="trees" class="w-5 h-5 text-primary mb-2"></i>
+        <p id="statCo2" class="text-2xl font-extrabold tabular-nums">0 kg</p>
+        <p class="text-xs text-ink/60">CO₂e dihindari dari TPA</p>
+      </div>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-4">
+      <div class="bg-white rounded-3xl border border-cyan-100 p-6">
+        <h3 class="font-extrabold mb-4">Riwayat setoran</h3>
+        <div id="riwayatList" class="space-y-3 text-sm"></div>
+      </div>
+      <div class="bg-ink text-white rounded-3xl p-6">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="trophy" class="w-5 h-5 text-accent"></i>
+          <h3 class="font-extrabold">Leaderboard Warga</h3>
+        </div>
+        <ol id="leaderboard" class="space-y-2 text-sm"></ol>
+        <p class="text-[11px] text-cyan-100/60 mt-4">Skor dummy RT Sukamaju 01 + poinmu. Reset tiap bulan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panduan" class="pb-16">
+    <h2 class="text-2xl font-extrabold mb-1">Panduan Pilah</h2>
+    <p class="text-sm text-ink/70 mb-5">Satu ember di dapur, lima wadah di rak. Mulai dari dua kategori saja sudah cukup.</p>
+    <div id="panduanGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+  </section>
+
+</main>
+
+<footer class="bg-ink text-cyan-100/80">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-6 text-sm">
+    <div>
+      <p class="font-extrabold text-white text-base mb-2 flex items-center gap-2"><i data-lucide="recycle" class="w-5 h-5 text-accent"></i> SampahPintar</p>
+      <p class="text-cyan-100/70 text-xs leading-relaxed">Marketplace daur ulang rumah tangga: foto, estimasi, jemput, poin. Demo vibe coding, data riil SIPSN 2024.</p>
+    </div>
+    <div>
+      <p class="font-bold text-white mb-2 text-xs uppercase tracking-wide">Sumber data</p>
+      <ul class="space-y-1 text-xs">
+        <li>SIPSN Kementerian Lingkungan Hidup 2024</li>
+        <li>BRIN: 32% sampah terkelola resmi</li>
+        <li>Harga acuan pasar daur ulang 2024–2025</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-white mb-2 text-xs uppercase tracking-wide">Catatan penting</p>
+      <p class="text-xs leading-relaxed">Harga adalah acuan, bukan janji transaksi. QRIS simulasi untuk demo. Semua data hanya tersimpan lokal di browser (localStorage), tidak dikirim ke server.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="lib/sampahpintar.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+const SP = window.SampahPintar;
+const BANKS = [
+  { id: 'b1', nama: 'Bank Sampah Melati', detil: 'RW 04, depan pos ronda', jarak: '0,4 km' },
+  { id: 'b2', nama: 'Kumpul Bareng (pengepul)', detil: 'Jl. Melati Raya, buka tiap hari', jarak: '0,9 km' },
+  { id: 'b3', nama: 'Bank Sampah Hijau Lestari', detil: 'Kantor kelurahan', jarak: '1,4 km' },
+  { id: 'b4', nama: 'Bank Sampah Sejahtera', detil: 'RT 09, balai warga', jarak: '2,1 km' }
+];
+const DUMMY = [
+  { nama: 'Rina', poin: 1240 }, { nama: 'Budi', poin: 980 }, { nama: 'Sari', poin: 875 },
+  { nama: 'Agus', poin: 640 }, { nama: 'Dewi', poin: 520 }, { nama: 'Joko', poin: 410 }
+];
+const KATEGORI_LABEL = {
+  plastik: 'Plastik', kertas: 'Kertas & Kardus', logam: 'Logam', kaca: 'Kaca',
+  organik: 'Organik (kompos)', lainnya: 'Lainnya'
+};
+const KATEGORI_ICON = {
+  plastik: 'glass-water', kertas: 'newspaper', logam: 'magnet', kaca: 'wine',
+  organik: 'apple', lainnya: 'lightbulb'
+};
+const ls = {
+  get(k, d) { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); },
+  set(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+};
+const st = { nama: ls.get('sp_nama', ''), jenis: null, kg: 1, tanggal: '', slot: 'pagi', bank: null, step: 1 };
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function todayISO() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function formatDate(iso) {
+  const bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+  const p = iso.split('-');
+  return Number(p[2]) + ' ' + bulan[Number(p[1]) - 1] + ' ' + p[0];
+}
+
+function renderChips() {
+  const grid = $('#jenisGrid');
+  grid.innerHTML = '';
+  SP.WASTE_TYPES.filter(t => t.jual).forEach(t => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip jenis-chip rounded-2xl border-2 border-cyan-100 bg-white px-3 py-2.5 text-xs font-bold cursor-pointer hover:border-primary';
+    b.dataset.id = t.id;
+    b.textContent = t.nama;
+    b.addEventListener('click', () => selectJenis(t.id));
+    grid.appendChild(b);
+  });
+}
+
+function selectJenis(id) {
+  st.jenis = SP.byId(id);
+  $$('.jenis-chip').forEach(c => {
+    const on = c.dataset.id === id;
+    c.classList.toggle('border-primary', on);
+    c.classList.toggle('bg-primary/5', on);
+    c.classList.toggle('text-primary', on);
+    c.classList.toggle('border-cyan-100', !on);
+  });
+  $('#tipsBox').classList.remove('hidden');
+  $('#tipsText').textContent = st.jenis.tips + ' Contoh: ' + st.jenis.contoh + '.';
+  $('[data-next="2"]').disabled = false;
+  renderHarga();
+}
+
+function renderHarga() {
+  if (!st.jenis) return;
+  const kg = Number($('#beratInput').value) || 0;
+  st.kg = kg;
+  const e = SP.estimatePrice(st.jenis.id, kg);
+  if (!st.jenis.jual || e.mid === 0) {
+    $('#hargaRange').textContent = 'Tidak dijual';
+    $('#hargaDetail').textContent = 'Jenis ini tidak dijual ke bank sampah, tapi tetap jauhkan dari TPA.';
+    $('#hargaPerKg').textContent = 'Rp 0';
+    return;
+  }
+  $('#hargaRange').textContent = SP.formatRp(e.low) + ' – ' + SP.formatRp(e.high);
+  $('#hargaDetail').textContent = 'Perkiraan untuk ' + kg + ' kg ' + st.jenis.nama + '. Nilai tengah ' + SP.formatRp(e.mid) + '.';
+  $('#hargaPerKg').textContent = SP.formatRp(st.jenis.hargaLow) + ' – ' + SP.formatRp(st.jenis.hargaHigh);
+}
+
+function renderBanks() {
+  const box = $('#bankList');
+  box.innerHTML = '';
+  BANKS.forEach(b => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'w-full text-left rounded-2xl border-2 border-cyan-100 bg-white px-4 py-3 cursor-pointer hover:border-primary transition-colors duration-200';
+    btn.dataset.id = b.id;
+    btn.innerHTML = '<div class="flex items-center justify-between"><span class="font-bold text-sm">' + b.nama + '</span><span class="text-xs font-bold text-primary tabular-nums">' + b.jarak + '</span></div><p class="text-xs text-ink/60">' + b.detil + '</p>';
+    btn.addEventListener('click', () => {
+      st.bank = b;
+      $$('#bankList button').forEach(x => x.classList.toggle('border-primary', x.dataset.id === b.id));
+      $$('#bankList button').forEach(x => x.classList.toggle('border-cyan-100', x.dataset.id !== b.id));
+    });
+    box.appendChild(btn);
+  });
+}
+
+function renderRingkasan() {
+  const e = SP.estimatePrice(st.jenis.id, st.kg);
+  $('#ringJenis').textContent = st.jenis.nama;
+  $('#ringBerat').textContent = st.kg + ' kg';
+  $('#ringHarga').textContent = SP.formatRp(e.low) + ' – ' + SP.formatRp(e.high);
+  $('#ringJadwal').textContent = formatDate(st.tanggal) + ', ' + (st.slot === 'pagi' ? 'pagi' : 'siang');
+  $('#ringBank').textContent = st.bank.nama + ' (' + st.bank.jarak + ')';
+  $('#ringPoin').textContent = SP.pointsFrom(e.mid) + ' poin';
+  $('#qrisAmount').textContent = SP.formatRp(e.mid) + ' (nilai tengah)';
+}
+
+function gotoStep(n) {
+  st.step = n;
+  $$('.wizard-step').forEach(s => s.classList.toggle('hidden', Number(s.dataset.step) !== n));
+  $$('#stepBar .step-dot').forEach(d => {
+    const on = Number(d.dataset.step) <= n;
+    d.classList.toggle('text-primary', on);
+    d.classList.toggle('text-ink/40', !on);
+  });
+  if (n === 3) $('#jadwalError').classList.add('hidden');
+  if (n === 4) { renderRingkasan(); $('#qrisBox').classList.add('hidden'); $('#suksesBox').classList.add('hidden'); $('#bayarBtn').classList.remove('hidden'); $('#backFrom4').classList.remove('hidden'); $('#resetBtn').classList.add('hidden'); }
+  document.getElementById('jual').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function averageRgb(img) {
+  const c = document.createElement('canvas');
+  c.width = 40; c.height = 40;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(img, 0, 0, 40, 40);
+  const d = ctx.getImageData(0, 0, 40, 40).data;
+  let r = 0, g = 0, b = 0;
+  for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; }
+  const n = d.length / 4;
+  return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+}
+
+function onFoto(file) {
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    $('#previewImg').src = url;
+    $('#previewBox').classList.remove('hidden');
+    const rgb = averageRgb(img);
+    $('#rgbBadge').textContent = 'RGB ' + rgb.join(', ');
+    const hasil = SP.classify(rgb);
+    $('#hasilAI').classList.remove('hidden');
+    $('#aiNama').textContent = hasil.nama;
+    const pct = Math.round(hasil.keyakinan * 100);
+    $('#keyakinanText').textContent = 'keyakinan ' + pct + '%';
+    $('#keyakinanBar').style.width = Math.max(pct, 4) + '%';
+    if (hasil.id !== 'lainnya') selectJenis(hasil.id);
+  };
+  img.src = url;
+}
+
+function renderPoin() {
+  const poin = ls.get('sp_poin', 0);
+  $('#poinBadge').textContent = poin;
+  $('#statPoin').textContent = poin;
+  $('#namaPill').textContent = st.nama ? st.nama + ' • RT Sukamaju 01' : 'Warga baru';
+}
+
+function renderDampak() {
+  const r = ls.get('sp_riwayat', []);
+  let kg = 0, rp = 0, co2 = 0;
+  r.forEach(t => { kg += t.kg; rp += t.mid; co2 += t.co2; });
+  $('#statKg').textContent = Math.round(kg * 10) / 10 + ' kg';
+  $('#statRp').textContent = SP.formatRp(rp);
+  $('#statCo2').textContent = Math.round(co2 * 10) / 10 + ' kg';
+  const box = $('#riwayatList');
+  box.innerHTML = '';
+  if (r.length === 0) {
+    box.innerHTML = '<p class="text-ink/50 text-sm">Belum ada setoran. Mulai dari langkah pertama di atas.</p>';
+  } else {
+    r.slice().reverse().forEach(t => {
+      const div = document.createElement('div');
+      div.className = 'flex items-center justify-between rounded-2xl bg-paper border border-cyan-100 px-4 py-3';
+      div.innerHTML = '<div><p class="font-bold">' + t.nama + '</p><p class="text-xs text-ink/60">' + formatDate(t.tanggalSetor) + ' • ' + t.kg + ' kg • ' + t.bank + '</p></div><div class="text-right"><p class="font-bold tabular-nums text-ctaDark">' + SP.formatRp(t.mid) + '</p><p class="text-xs text-primary tabular-nums">+' + t.poin + ' poin</p></div>';
+      box.appendChild(div);
+    });
+  }
+  const poin = ls.get('sp_poin', 0);
+  const lb = SP.sortLeaderboard(DUMMY.concat(st.nama ? [{ nama: st.nama + ' (kamu)', poin: poin }] : []));
+  const ol = $('#leaderboard');
+  ol.innerHTML = '';
+  lb.forEach((e, i) => {
+    const li = document.createElement('li');
+    const kamu = e.nama.endsWith('(kamu)');
+    li.className = 'flex items-center justify-between rounded-2xl px-4 py-2.5 ' + (kamu ? 'bg-accent/20 border border-accent/40 font-bold' : 'bg-white/10');
+    li.innerHTML = '<span class="flex items-center gap-3"><span class="w-6 text-center font-extrabold ' + (i < 3 ? 'text-accent' : 'text-cyan-100/50') + '">' + (i + 1) + '</span>' + e.nama + '</span><span class="tabular-nums">' + e.poin + ' poin</span>';
+    ol.appendChild(li);
+  });
+}
+
+function renderPanduan() {
+  const grid = $('#panduanGrid');
+  grid.innerHTML = '';
+  const dipakai = [];
+  SP.WASTE_TYPES.forEach(t => {
+    if (dipakai.includes(t.kategori)) return;
+    dipakai.push(t.kategori);
+    const jenis = SP.WASTE_TYPES.filter(x => x.kategori === t.kategori);
+    const card = document.createElement('div');
+    card.className = 'bg-white rounded-3xl border border-cyan-100 p-5';
+    card.innerHTML =
+      '<div class="flex items-center gap-2 mb-2"><span class="w-9 h-9 rounded-2xl bg-primary/10 text-primary grid place-items-center"><i data-lucide="' + (KATEGORI_ICON[t.kategori] || 'circle') + '" class="w-5 h-5"></i></span>' +
+      '<h3 class="font-extrabold text-sm">' + (KATEGORI_LABEL[t.kategori] || t.kategori) + '</h3></div>' +
+      '<p class="text-xs text-ink/70 leading-relaxed">' + jenis.map(x => x.nama).join(', ') + '.</p>' +
+      '<p class="text-xs text-ink/60 mt-2">' + jenis[0].tips + '.</p>';
+    grid.appendChild(card);
+  });
+}
+
+function simpanTransaksi() {
+  const e = SP.estimatePrice(st.jenis.id, st.kg);
+  const im = SP.impactKg(st.jenis.id, st.kg);
+  const poin = SP.pointsFrom(e.mid);
+  const riwayat = ls.get('sp_riwayat', []);
+  riwayat.push({
+    tanggalSetor: todayISO(), jenisId: st.jenis.id, nama: st.jenis.nama, kg: st.kg,
+    low: e.low, high: e.high, mid: e.mid, poin: poin, tpa: im.tpa, co2: im.co2,
+    bank: st.bank.nama, jadwal: st.tanggal + ' ' + st.slot
+  });
+  ls.set('sp_riwayat', riwayat);
+  ls.set('sp_poin', ls.get('sp_poin', 0) + poin);
+  $('#suksesText').textContent = st.bank.nama + ' menjemput ' + st.kg + ' kg ' + st.jenis.nama + ' pada ' + formatDate(st.tanggal) + ' (' + (st.slot === 'pagi' ? 'pagi' : 'siang') + '). + ' + poin + ' poin masuk.';
+  $('#suksesBox').classList.remove('hidden');
+  $('#qrisBox').classList.add('hidden');
+  $('#bayarBtn').classList.add('hidden');
+  $('#backFrom4').classList.add('hidden');
+  $('#resetBtn').classList.remove('hidden');
+  renderPoin();
+  renderDampak();
+}
+
+function resetWizard() {
+  st.jenis = null; st.kg = 1; st.bank = null; st.slot = 'pagi';
+  $('#beratInput').value = 1;
+  $('#previewBox').classList.add('hidden');
+  $('#hasilAI').classList.add('hidden');
+  $('#tipsBox').classList.add('hidden');
+  $('[data-next="2"]').disabled = true;
+  $$('.jenis-chip').forEach(c => { c.classList.remove('border-primary', 'bg-primary/5', 'text-primary'); c.classList.add('border-cyan-100'); });
+  $$('.slot-btn').forEach(x => { x.classList.remove('border-primary', 'bg-primary/5'); x.classList.add('border-cyan-200'); });
+  $('#tanggalInput').value = st.tanggal;
+  gotoStep(1);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderChips(); renderBanks(); renderPanduan(); renderPoin(); renderDampak();
+  const tanggal = $('#tanggalInput');
+  tanggal.min = todayISO();
+  tanggal.value = todayISO();
+  st.tanggal = todayISO();
+  $('[data-next="2"]').disabled = true;
+
+  if (!st.nama) $('#onboarding').classList.remove('hidden'), $('#onboarding').classList.add('flex');
+  $('#mulaiBtn').addEventListener('click', () => {
+    const v = $('#namaInput').value.trim();
+    if (!v) { $('#namaInput').focus(); return; }
+    st.nama = v; ls.set('sp_nama', v);
+    $('#onboarding').classList.add('hidden');
+    $('#onboarding').classList.remove('flex');
+    renderPoin(); renderDampak();
+  });
+
+  $('#fotoInput').addEventListener('change', (e) => { if (e.target.files[0]) onFoto(e.target.files[0]); });
+  $('#beratInput').addEventListener('input', renderHarga);
+
+  const quick = $('#beratQuick');
+  [0.5, 1, 2, 5].forEach(k => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'rounded-xl bg-cyan-50 border border-cyan-100 px-3 py-1.5 text-xs font-bold cursor-pointer hover:bg-primary/10 transition-colors duration-200';
+    b.textContent = k + ' kg';
+    b.addEventListener('click', () => { $('#beratInput').value = k; renderHarga(); });
+    quick.appendChild(b);
+  });
+
+  $$('.slot-btn').forEach(b => b.addEventListener('click', () => {
+    st.slot = b.dataset.slot;
+    $$('.slot-btn').forEach(x => { x.classList.toggle('border-primary', x === b); x.classList.toggle('bg-primary/5', x === b); x.classList.toggle('border-cyan-200', x !== b); });
+  }));
+  tanggal.addEventListener('change', () => { st.tanggal = tanggal.value; });
+
+  $$('[data-next]').forEach(b => b.addEventListener('click', () => {
+    const target = Number(b.dataset.next);
+    if (target === 4) {
+      st.tanggal = tanggal.value;
+      const v = SP.validateSchedule(st.tanggal, st.slot, todayISO());
+      const err = $('#jadwalError');
+      if (!st.bank) { err.textContent = 'Pilih dulu titik jemput terdekat.'; err.classList.remove('hidden'); return; }
+      if (!v.ok) { err.textContent = v.alasan; err.classList.remove('hidden'); return; }
+      err.classList.add('hidden');
+    }
+    if (target === 2 && !st.jenis) return;
+    gotoStep(target);
+  }));
+  $$('[data-prev]').forEach(b => b.addEventListener('click', () => gotoStep(Number(b.dataset.prev))));
+
+  $('#bayarBtn').addEventListener('click', () => { $('#qrisBox').classList.remove('hidden'); $('#bayarBtn').classList.add('hidden'); });
+  $('#konfirmasiBtn').addEventListener('click', simpanTransaksi);
+  $('#resetBtn').addEventListener('click', resetWizard);
+
+  lucide.createIcons();
+});
+</script>
+</body>
+</html>
